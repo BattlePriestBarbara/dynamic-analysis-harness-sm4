@@ -131,6 +131,6 @@ powershell -NoProfile -ExecutionPolicy Bypass -File tools/check-sanitization.ps1
 | 1 | ~~索引缺口的"起点从何而来"~~ **已结案**：缺口是 harness 清零 hook 造成的，不是样本性质 | 已转为检查项：任何"guest 行为"结论都要先排除 harness 自身写内存 |
 | 2 | ~~捕获的 SM4 key 解的是哪个 blob~~ **已证**：`assets/sign_verify.png`（80 B） | 已作为 #3 的输入 |
 | 3 | 那 80 字节是密文还是签名块：ECB/CBC 四种解释都无合法 PKCS#7（末字节 `0x6d`） | 按 [07 §7.12.4](docs/07-SM4链路逐跳定位.md) 的可证伪假设：以原厂包名/路径重装后，比较捕获到的密钥是否改变 |
-| 4 | harness 的 `-D…sm4dyn.keep=true` 仅编译验证，未做运行时确认 | 跑一次默认抓取，检查 `.bak` 重命名行为 |
+| 4 | ~~`-D…sm4dyn.keep=true` 仅编译验证~~ **已运行时确认**：5 个抓取文件被改名为 `<name>.<ts>.bak`（16 / 544 / 224 / 742 / 658 B），新抓取照常写入 | 已完成 |
 | 5 | ~~为缺口内的 blob 补一条索引记录（路线 A）~~ **作废**：无需补记录，重跑即得完整索引 | — |
 
