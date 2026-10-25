@@ -1,0 +1,25 @@
+# 统一编辑器行为：Markdown 与 PowerShell 都被本仓库的检查脚本扫描，
+# 因此换行符与编码必须固定，否则 diff 与 grep 都会失真。
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+insert_final_newline = true
+trim_trailing_whitespace = true
+indent_style = space
+indent_size = 2
+
+[*.md]
+# Markdown 的行尾两个空格是硬换行，不能删
+trim_trailing_whitespace = false
+indent_size = 2
+
+[*.ps1]
+indent_size = 4
+
+[*.psd1]
+indent_size = 4
+
+[.gitignore]
+indent_size = 2

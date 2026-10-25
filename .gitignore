@@ -1,0 +1,73 @@
+# =====================================================================
+# 白名单模式（deny-by-default）
+#
+# 本仓库只收录「已脱敏的文本报告 + 只读分析脚本」。
+# 样本解包目录、APK/SO/DEX、抓包产物、unidbg 镜像、node_modules、
+# 原始 .doc 一律不入库。默认忽略一切，再显式放行少数路径，
+# 因此即使有人把二进制误拷进本目录，也不会被 `git add -A` 收进去。
+# =====================================================================
+/*
+
+!/.gitignore
+!/.gitattributes
+!/README.md
+!/.editorconfig
+!/SANITIZATION.md
+!/docs/
+!/tools/
+
+# ---------------------------------------------------------------------
+# 防御性规则：万一白名单目录里混进了二进制证据，仍然拦下
+# ---------------------------------------------------------------------
+*.apk
+*.aab
+*.so
+*.dex
+*.odex
+*.vdex
+*.oat
+*.art
+*.bin
+*.img
+*.dat
+*.ajm
+*.hbc
+*.pa
+*.zip
+*.7z
+*.rar
+*.tar
+*.gz
+*.jar
+*.class
+*.doc
+*.docx
+*.pdf
+*.png
+*.jpg
+*.jpeg
+*.gif
+*.bmp
+*.webp
+*.jsonl
+*.xlsx
+*.xls
+*.db
+*.sqlite
+*.pcap
+*.core
+*.dmp
+
+# 常见产物/缓存目录
+out/
+_out/
+node_modules/
+__pycache__/
+.vs/
+.vscode/
+*.log
+*.tmp
+*.bak
+
+# 脱敏自检的本地覆盖层：含真实身份值（厂商缩写/域名/库名/用户名），永不入库
+tools/scrub-map.local.psd1
