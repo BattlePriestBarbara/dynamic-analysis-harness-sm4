@@ -323,11 +323,18 @@ foreach ($of in $oversize) {
 
 $gitCmd = Get-Command git -ErrorAction SilentlyContinue
 if ($gitCmd -and (Test-Path -LiteralPath (Join-Path $Root '.git') -PathType Container)) {
-    $tracked = & git -C $Root ls-files 2>$null
+    # core.quotepath=false：否则中文路径会被八进制转义并带上引号，GetExtension 会抛异常
+    $tracked = & git -C $Root -c core.quotepath=false ls-files 2>$null
     if ($LASTEXITCODE -eq 0 -and $tracked) {
         $badExt = @('.apk', '.so', '.dex', '.bin', '.img', '.zip', '.jar', '.png', '.doc', '.docx', '.pdf', '.jsonl', '.db', '.pcap')
         foreach ($t in $tracked) {
-            $ext = [System.IO.Path]::GetExtension($t).ToLower()
+            try {
+                $ext = [System.IO.Path]::GetExtension($t).ToLower()
+            }
+            catch {
+                $notes.Add('git 跟踪了无法解析的路径: ' + $t)
+                continue
+            }
             if ($badExt -contains $ext) { $notes.Add('git 已跟踪二进制/产物文件: ' + $t) }
         }
         if ($tracked -contains 'tools/scrub-map.local.psd1') {
